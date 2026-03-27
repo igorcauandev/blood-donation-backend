@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "quantidade": "100ml",
+    "dataColeta": "2024-06-01",
+    "dataValidade": "2024-12-01",
+    "dataSaida": "2024-12-01",
+    "localArmazenamento": "Banco de Sangue Central",
+    "tipoSanguineo": "O+",
+    "doador": "Igor"
+  },
+  {
+    "id": 2,
+    "quantidade": "103ml",
+    "dataColeta": "2024-06-01",
+    "dataValidade": "2024-12-01",
+    "dataSaida": "2024-12-01",
+    "localArmazenamento": "Banco de Sangue Central",
+    "tipoSanguineo": "O+",
+    "doador": "Igor"
+  },
+  {
+    "id": 2,
+    "quantidade": "103ml",
+    "dataColeta": "2024-06-01",
+    "dataValidade": "2024-12-01",
+    "dataSaida": "2024-12-01",
+    "localArmazenamento": "Banco de Sangue Central",
+    "tipoSanguineo": "O+"
+  }
+]
