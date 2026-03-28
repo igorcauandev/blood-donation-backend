@@ -1,42 +1,58 @@
-from flask import jsonify, request
+from flask import Blueprint, jsonify, request
 import dados
 
 
-def rota_bolsas(app):
+bolsas_bp = Blueprint("bolsas", __name__)
 
-    # BOLSAS DE SANGUE
 
-    @app.post("/bolsas")
-    def criar_bolsa():
+@bolsas_bp.post("/bolsas")
+def criar_bolsa():
 
-        bolsa = request.json
+    bolsa = request.json
 
-        if not bolsa:
-            return jsonify({"erro": "JSON inválido"}), 400
+    if not bolsa:
+        return jsonify({"erro": "JSON inválido"}), 400
 
-        with open("bolsa.json", "a") as arquivo:
-            arquivo.write(str(bolsa))
+    if "id" not in bolsa or not isinstance(bolsa["id"], int) or isinstance(bolsa["id"], bool):
+        return jsonify({"erro": "Campo 'id' é obrigatório e deve ser número inteiro"}), 400
 
-        dados.bolsas.append(bolsa)
+    if "quantidade" not in bolsa or not isinstance(bolsa["quantidade"], str):
+        return jsonify({"erro": "Campo 'quantidade' é obrigatório e deve ser texto"}), 400
 
-        return jsonify({
-            "mensagem": "Bolsa registrada"
-        }), 201
+    if "dataColeta" not in bolsa or not isinstance(bolsa["dataColeta"], str):
+        return jsonify({"erro": "Campo 'dataColeta' é obrigatório e deve ser texto"}), 400
 
-    @app.get("/bolsas")
-    def listar_bolsas():
+    if "dataValidade" not in bolsa or not isinstance(bolsa["dataValidade"], str):
+        return jsonify({"erro": "Campo 'dataValidade' é obrigatório e deve ser texto"}), 400
 
-        return jsonify(dados.bolsas)
+    if "tipoSanguineo" not in bolsa or not isinstance(bolsa["tipoSanguineo"], str):
+        return jsonify({"erro": "Campo 'tipoSanguineo' é obrigatório e deve ser texto"}), 400
+
+    if "doador" not in bolsa or not isinstance(bolsa["doador"], str):
+        return jsonify({"erro": "Campo 'doador' é obrigatório e deve ser texto"}), 400
+
+    dados.bolsas.append(bolsa)
+    dados.salvar("bolsas.json", dados.bolsas)
+
+    return jsonify({
+        "mensagem": "Bolsa registrada",
+        "bolsa": bolsa
+    }), 201
     
-    # BUSCAR POR TIPO SANGUINEO
 
-    @app.get("/bolsas/tipo/<tipo>")
-    def buscar_tipo(tipo):
+@bolsas_bp.get("/bolsas")
+def listar_bolsas():
 
-        resultado = []
+    return jsonify(dados.bolsas), 200
 
-        for bolsa in dados.bolsas:
-            if bolsa["tipoSanguineo"] == tipo:
-                resultado.append(bolsa)
 
-        return jsonify(resultado)
+@bolsas_bp.get("/bolsas/tipo/<tipo>")
+def buscar_tipo(tipo):
+
+    resultado = []
+
+    for bolsa in dados.bolsas:
+        if bolsa["tipoSanguineo"] == tipo:
+            resultado.append(bolsa)
+
+    return jsonify(resultado), 200
