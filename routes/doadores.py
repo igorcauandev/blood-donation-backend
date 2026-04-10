@@ -26,12 +26,33 @@ def criar_doador():
     if not isinstance(novo["id"], int):
         return jsonify({"erro": "Campo 'id' deve ser um número inteiro"}), 400
 
-    # Valida outros campos também
-    if "nome" not in novo or not isinstance(novo["nome"], str):
-        return jsonify({"erro": "Campo 'nome' é obrigatório e deve ser texto"}), 400
+    # Valida se o campo 'nome' existe e é do tipo str
+    if "nome" not in novo:
+        return jsonify({"erro": "Campo 'nome' é obrigatório"}), 400
+    
+    if not isinstance(novo["nome"], str):
+        return jsonify({"erro": "Campo 'nome' deve ser texto"}), 422
 
-    if "idade" not in novo or not isinstance(novo["idade"], int):
-        return jsonify({"erro": "Campo 'idade' é obrigatório e deve ser número inteiro"}), 400
+    # Valida se o campo 'tipoSanguineo' existe e é do tipo str
+    if "tipoSanguineo" not in novo:
+        return jsonify({"erro": "Campo 'tipoSanguineo' é obrigatório"}), 400
+    
+    if not isinstance(novo["tipoSanguineo"], str):
+        return jsonify({"erro": "Campo 'tipoSanguineo' deve ser texto"}), 422
+    
+    # Valida se o campo 'genero' existe e é do tipo str
+    if "genero" not in novo:
+        return jsonify({"erro": "Campo 'genero' é obrigatório"}), 400
+    
+    if not isinstance(novo["genero"], str):
+        return jsonify({"erro": "Campo 'genero' deve ser texto"}), 422
+
+    # Valida se o campo 'idade' existe e é do tipo int
+    if "idade" not in novo:
+        return jsonify({"erro": "Campo 'idade' é obrigatório"}), 400
+    
+    if not isinstance(novo["idade"], int):
+        return jsonify({"erro": "Campo 'idade' deve ser um número inteiro"}), 422
 
     if "peso" not in novo or not isinstance(novo["peso"], (int, float)):
         return jsonify({"erro": "Campo 'peso' é obrigatório e deve ser número"}), 400
