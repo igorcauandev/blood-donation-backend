@@ -83,6 +83,13 @@ def listar_bolsas():
 
     return jsonify(dados.bolsas), 200
 
+@bolsas_bp.get("/bolsas/<id>")
+def buscar_bolsa_id(id):
+    for bols in dados.bolsas:
+        if bols.get('id') == int(id):
+            return jsonify(bols), 200
+    return jsonify({"erro": "Bolsa não encontrada"}), 404
+    
 
 @bolsas_bp.get("/bolsas/tipo/<tipo>")
 def buscar_tipo(tipo):
