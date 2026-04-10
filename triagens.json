@@ -10,5 +10,11 @@
     "doadorId": 1,
     "dataTriagem": "2024-06-01",
     "resultado": "Apto"
+  },
+  {
+    "id": 1,
+    "doadorId": 1,
+    "dataTriagem": "2024-06-01",
+    "resultado": "Apto"
   }
 ]
