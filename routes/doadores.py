@@ -6,10 +6,22 @@ doadores_bp = Blueprint("doadores", __name__)
 
 @doadores_bp.get("/doadores")
 def listar_doadores():
+    
+    
+    id = dados.pessoas.get('id')
+    
+    
     if not dados.pessoas:
         return jsonify({"mensagem": "Nenhum doador encontrado"}), 400
     return jsonify(dados.pessoas), 200
 
+@doadores_bp.get("/doadores/<int:id>")
+def buscar_doador(id):
+
+    if id < len(dados.pessoas):
+        return jsonify(dados.pessoas[id]), 200
+
+    return jsonify({"erro": "Doador não encontrado"}), 400
 
 @doadores_bp.post("/doadores")
 def criar_doador():
@@ -24,7 +36,7 @@ def criar_doador():
         return jsonify({"erro": "Campo 'id' é obrigatório"}), 400
 
     if not isinstance(novo["id"], int):
-        return jsonify({"erro": "Campo 'id' deve ser um número inteiro"}), 400
+        return jsonify({"erro": "Campo 'id' deve ser um número inteiro"}), 422
 
     # Valida se o campo 'nome' existe e é do tipo str
     if "nome" not in novo:
@@ -54,8 +66,12 @@ def criar_doador():
     if not isinstance(novo["idade"], int):
         return jsonify({"erro": "Campo 'idade' deve ser um número inteiro"}), 422
 
-    if "peso" not in novo or not isinstance(novo["peso"], (int, float)):
-        return jsonify({"erro": "Campo 'peso' é obrigatório e deve ser número"}), 400
+    # Valida se o campo 'peso' existe e é do tipo (int, float)
+    if "peso" not in novo:
+        return jsonify({"erro": "Campo 'peso' é obrigatório"}), 400
+
+    if not isinstance(novo["peso"], (int, float)):
+        return jsonify({"erro": "Campo 'peso' deve ser um número"}), 422
 
     dados.pessoas.append(novo)
     dados.salvar("doadores.json", dados.pessoas)  # persiste no arquivo
@@ -65,11 +81,3 @@ def criar_doador():
         "doador": novo
     }), 201
 
-
-@doadores_bp.get("/doadores/<int:id>")
-def buscar_doador(id):
-
-    if id < len(dados.pessoas):
-        return jsonify(dados.pessoas[id]), 200
-
-    return jsonify({"erro": "Doador não encontrado"}), 400
