@@ -1,13 +1,11 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, json
 import dados
 
 
 bolsas_bp = Blueprint("bolsas", __name__)
 
-
 @bolsas_bp.post("/bolsas")
 def criar_bolsa():
-
     bolsa = request.json
 
     if not bolsa:
