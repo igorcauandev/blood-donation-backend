@@ -50,7 +50,7 @@ estoque = carregar("estoque.json", [
     }
 ])
 
-homocentros = carregar("homocentros.json", [
+hemocentros = carregar("hemocentros.json", [
     {
         "id": 1, 
         "nome": "Banco de Sangue Central",
